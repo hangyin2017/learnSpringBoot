@@ -1,7 +1,7 @@
 package com.cat.demo.repositories;
 
 import com.cat.demo.DemoApplication;
-import com.cat.demo.entities.StudentEntity;
+import com.cat.demo.entities.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,10 +20,10 @@ public class StudentRepositoryTest {
 
     @Test
     public void shouldAddStudentIntoDBSuccessfullyGivenProperStudentObjectProvided() {
-        StudentEntity student = new StudentEntity();
+        Student student = new Student();
         student.setFirstName("tiger");
         student.setPassword("abc");
-        StudentEntity returnedStudent = studentRepository.save(student);
+        Student returnedStudent = studentRepository.save(student);
         Assertions.assertEquals("tiger", returnedStudent.getFirstName());
         Assertions.assertNotNull(returnedStudent.getPassword());
     }

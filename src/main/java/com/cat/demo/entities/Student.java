@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "student")
-public class StudentEntity {
+public class Student {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

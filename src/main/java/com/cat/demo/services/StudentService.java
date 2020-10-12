@@ -2,11 +2,17 @@ package com.cat.demo.services;
 
 //import com.cat.demo.dtos.Student;
 //import com.cat.demo.repositories.StudentRepository;
-import com.cat.demo.dtos.StudentDto;
-import com.cat.demo.entities.StudentEntity;
+import com.cat.demo.dtos.student.StudentGetDto;
+import com.cat.demo.dtos.student.StudentPostDto;
+import com.cat.demo.dtos.student.StudentPutDto;
+import com.cat.demo.entities.Student;
+import com.cat.demo.mappers.StudentMapper;
 import com.cat.demo.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 //@RequiredArgsConstructor
@@ -14,27 +20,29 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+    private StudentMapper studentMapper;
 
-    public StudentDto getStudent() {
-        return StudentDto.builder()
-                .firstName("Cat")
-                .lastName("JR")
-                .age(20)
-                .build();
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
 
-    public StudentDto createStudent(StudentDto studentDto) {
-        StudentEntity studentEntity = new StudentEntity();
-        studentEntity.setFirstName(studentDto.getFirstName());
-        studentEntity.setLastName(studentDto.getLastName());
-        studentEntity.setPassword("334455");
+    public StudentGetDto findStudentByName(String name) {
+        return studentMapper.fromEntity(studentRepository.findByFirstName(name));
+    }
 
-        StudentEntity returnedEntity = studentRepository.save(studentEntity);
+    public StudentGetDto create(StudentPostDto studentPostDto) {
+        Student studentEntity = studentMapper.toEntity(studentPostDto);
+        return studentMapper.fromEntity(studentRepository.save(studentEntity));
+    }
 
-        return StudentDto.builder()
-                .firstName(returnedEntity.getFirstName())
-                .lastName(returnedEntity.getLastName())
-                .age(returnedEntity.getAge())
-                .build();
+    public StudentGetDto modify(UUID studentId, StudentPutDto studentPutDto) {
+        Student student = new Student();
+        studentMapper.copy(studentPutDto, student);
+        student.setId(studentId);
+        return studentMapper.fromEntity(studentRepository.save(student));
+    }
+
+    public void delete(UUID id) {
+        studentRepository.deleteById(id);
     }
 }

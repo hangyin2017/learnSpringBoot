@@ -5,13 +5,10 @@ import com.cat.demo.dtos.student.StudentPostDto;
 import com.cat.demo.dtos.student.StudentPutDto;
 import com.cat.demo.entities.Student;
 import com.cat.demo.services.StudentService;
-import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,18 +26,18 @@ public class DemoController {
     //}
 
     @GetMapping
-    public ResponseEntity<List<Student>> find() {
+    public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     @GetMapping("search")
-    public ResponseEntity<StudentGetDto> findByName(@RequestParam String studentName) {
-        return ResponseEntity.ok(studentService.findStudentByName(studentName));
+    public ResponseEntity<StudentGetDto> findByFirstName(@RequestParam String studentName) {
+        return ResponseEntity.ok(studentService.findByFirstName(studentName));
     }
 
     @PostMapping
     public ResponseEntity<StudentGetDto> add(@RequestBody StudentPostDto studentPostDto) {
-        StudentGetDto studentGetDto = studentService.create(studentPostDto);
+        StudentGetDto studentGetDto = studentService.add(studentPostDto);
         return ResponseEntity.ok(studentGetDto);
     }
 
@@ -50,8 +47,7 @@ public class DemoController {
     }
 
     @DeleteMapping("/{studentId}")
-    public ResponseEntity delete(@PathVariable UUID studentId) {
-        studentService.delete(studentId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Student> delete(@PathVariable UUID studentId) {
+        return ResponseEntity.ok(studentService.delete(studentId));
     }
 }

@@ -6,5 +6,6 @@ import lombok.Data;
 public class StudentPostDto {
     private String firstName;
     private String lastName;
+    private int age;
     private String password;
 }

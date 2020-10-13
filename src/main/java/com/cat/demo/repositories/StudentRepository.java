@@ -6,4 +6,5 @@ import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
     Student findByFirstName(String firstName);
+    Student findByLastName(String lastName);
 }

@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -42,7 +41,6 @@ public class StudentService {
 
     public Student delete(UUID id) {
         Student student = studentRepository.findById(id).get();
-        //Student student = studentRepository.getOne(id);
         studentRepository.deleteById(id);
         return student;
     }
